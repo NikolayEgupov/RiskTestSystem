@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="https://www.thymeleaf.org">
+<head th:replace="common/head :: head('Добавить студента')"></head>
+<body>
+<nav th:replace="common/nav :: copy"></nav>
+<div class="container mt-5">
+    <h5>Добавление нового преподавателя</h5>
+    <br>
+    <form th:action="@{/admin/student/add}" th:method="POST" th:object="${student}">
+        <div class="form-group">
+            <label for="name">ФИО</label>
+            <input id="name" class="form-control" type="text" th:field="*{name}" />
+        </div>
+        <div class="form-group">
+            <label for="email">Электронная почта</label>
+            <input id="email" class="form-control" type="email" th:field="*{email}" />
+        </div>
+        <div class="form-group">
+            <label for="group">Группа</label>
+            <select th:object="${student.group}" th:field="*{id}" id="group">
+                <option th:each="group:${groups}" th:value="${group.getId()}" th:text="${group.getName()}">
+                </option>
+            </select>
+        </div>
+        <p>Пароль для входа будет отправлен по адресу электронной почты.</p>
+        <button type="submit" class="btn btn-primary mb-2">Добавить</button>
+    </form>
+</div>
+
+<div th:replace="common/script :: script"></div></body>
+</html>

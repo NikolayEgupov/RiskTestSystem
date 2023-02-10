@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:replace="common/head :: head('Удалить группу')"></head>
+<body>
+<nav th:replace="common/nav :: copy"></nav>
+<div class="container mt-5">
+    <h5>Вы действительно хотите удалить группу?</h5>
+    <br>
+    <p th:text="${'Название группы: ' + group.getName()}">Имя</p>
+    <form th:action="@{/admin/group/delete/{id}(id=${group.getId()})}" th:method="DELETE" th:object="${group}">
+        <button type="submit" class="btn btn-primary mb-2">Удалить</button>
+    </form>
+</div>
+<div th:replace="common/script :: script"></div>
+</body>
+</html>

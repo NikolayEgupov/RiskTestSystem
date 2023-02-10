@@ -1,0 +1,21 @@
+package ru.egupov.risktestsystem.controllers.admin;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+@Controller
+@RequestMapping("/admin")
+public class AdminController {
+
+    @GetMapping()
+    public String mainAdminPage(){
+        return "admin/main";
+    }
+
+    @GetMapping("/student")
+    public String studentPage(){
+        return "admin/main";
+    }
+
+}

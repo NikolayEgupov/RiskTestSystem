@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="https://www.thymeleaf.org">
+<head th:replace="common/head :: head('Редактирование данных')"></head>
+
+<body>
+<nav th:replace="common/nav :: copy"></nav>
+<div class="container mt-5">
+    <div th:if="${param.pass}" class="alert alert-success" role="alert">
+        Новый пароль отправлен по электронной почте.
+    </div>
+    <div class="row">
+        <div class="col">
+            <h5>Редактирование профиля преподавателя</h5>
+            <br>
+            <form th:action="@{/admin/teacher/new_pass/{id}(id=${teacher.getId()})}" th:method="GET">
+                <button type="submit" class="btn btn-outline-primary">Сбросить пароль</button>
+            </form>
+            <br>
+            <form th:action="@{/admin/teacher/edit/{id}(id=${teacher.getId()})}" th:method="PATCH" th:object="${teacher}">
+                <div class="form-group">
+                    <label for="name">ФИО</label>
+                    <input id="name" class="form-control" type="text" th:field="*{name}" />
+                </div>
+                <div class="form-group">
+                    <label for="email">Электронная почта</label>
+                    <input id="email" class="form-control" type="email" th:field="*{email}" />
+                </div>
+                <div class="form-group">
+                    <label for="phone">Телефон</label>
+                    <input id="phone" class="form-control" type="text" th:field="*{tel}" />
+                </div>
+                <button type="submit" class="btn btn-primary mb-2">Сохранить</button>
+            </form>
+        </div>
+        <div class="col">
+            <h5>Группы преподавателя</h5>
+            <br>
+            <form th:action="@{/admin/group/add}" th:method="GET">
+                <input type="hidden" name="teacher_id" th:value="${teacher.getId()}">
+                <button type="submit" class="btn btn-outline-primary">Добавить</button>
+            </form>
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Название</th>
+                    <th scope="col">&nbsp;</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="group : ${teacher.getGroups()}">
+                    <td th:text="${group.getId()}">ID</td>
+                    <td th:text="${group.getName()}">Имя</td>
+                    <td>
+                        <a th:href="@{/admin/group/edit/{id}(id=${group.getId()})}">
+                            <i class="bi bi-pencil"></i>
+                        </a>
+                        <a th:href="@{/admin/group/delete/{id}(id=${group.getId()})}">
+                            <i class="bi bi-x-lg"></i>
+                        </a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col">
+            <br>
+            <h5>Созданные материалы</h5>
+            <br>
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th scope="col">Уникальный номер</th>
+                    <th scope="col">Название</th>
+                    <th scope="col">Активный</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="tst : ${teacher.getTestExemps()}">
+                    <td th:text="${tst.getId()}" class="col-1">ID</td>
+                    <td class="col-5"><a th:text="${tst.getName()}" href="yandex.ru"></a></td>
+                    <td class="col-1">
+                        Да
+                    </td>
+                </tr>
+                </tbody>
+
+            </table>
+        </div>
+    </div>
+</div>
+
+<div th:replace="common/script :: script"></div>
+</body>
+</html>
