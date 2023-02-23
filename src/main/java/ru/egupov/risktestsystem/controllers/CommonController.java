@@ -26,6 +26,8 @@ public class CommonController {
             Person person = personDetails.getPerson();
             if (person.getRole() == SysRole.ROLE_ADMIN){
                 returnPage = "redirect:/admin";
+            } else if (person.getRole() == SysRole.ROLE_TEACHER){
+                returnPage = "teacher_pages/main";
             }
         }
 

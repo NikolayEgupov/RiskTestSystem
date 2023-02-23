@@ -6,6 +6,8 @@ import ru.egupov.risktestsystem.models.Group;
 import ru.egupov.risktestsystem.models.Student;
 import ru.egupov.risktestsystem.repositories.StudentsRepository;
 
+import java.util.List;
+
 @Service
 @Transactional
 public class StudentService {
@@ -22,6 +24,9 @@ public class StudentService {
 
     public Student findById (int id){
         return studentsRepository.findById(id).orElse(null);
+    }
+    public List<Student> findByGroup(Group group){
+        return studentsRepository.findByGroup(group);
     }
 
     public void add(Student student){

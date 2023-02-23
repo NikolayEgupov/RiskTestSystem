@@ -4,7 +4,7 @@
 <body>
 <nav th:replace="common/nav :: copy"></nav>
 <div class="container mt-5">
-    <h5>Добавление нового преподавателя</h5>
+    <h5>Добавление нового студента</h5>
     <br>
     <form th:action="@{/admin/student/add}" th:method="POST" th:object="${student}">
         <div class="form-group">

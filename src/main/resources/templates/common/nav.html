@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="ru" xmlns:th="https://www.thymeleaf.org">
+<html lang="ru" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
     <meta charset="UTF-8">
     <title>Администратор - система тестирования</title>
@@ -16,22 +17,33 @@
     </button>
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto">
+        <ul class="navbar-nav mr-auto" sec:authorize="hasRole('ADMIN')">
 
             <li class="nav-item active">
                 <a class="nav-link" href="/admin/teacher">Преподаватели</a>
             </li>
 
             <li class="nav-item active">
-                <a class="nav-link" href="/">Тесты</a>
-            </li>
-            <li class="nav-item active">
                 <a class="nav-link" href="/">Отчеты</a>
             </li>
 
         </ul>
-    </div>
+        <ul class="navbar-nav mr-auto" sec:authorize="hasRole('TEACHER')">
 
+            <li class="nav-item active">
+                <a class="nav-link" href="/student">Студенты</a>
+            </li>
+
+            <li class="nav-item active">
+                <a class="nav-link" href="/test_inst">Тесты</a>
+            </li>
+
+        </ul>
+
+    </div>
+<!--    <div class="d-flex flex-row-reverse">-->
+<!--        <div class="p-2" ><span sec:authorize="hasRole('TEACHER')">sdffs</span></div>-->
+<!--    </div>-->
     <form class="navbar-text"  th:action="@{/logout}" th:method="POST">
         <input type="submit" value="Выйти" class="btn btn-light">
     </form>

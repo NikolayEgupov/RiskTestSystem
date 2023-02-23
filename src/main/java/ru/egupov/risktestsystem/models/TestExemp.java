@@ -5,6 +5,7 @@ import lombok.experimental.FieldDefaults;
 import ru.egupov.risktestsystem.utils.TypeViewReview;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "test_exemp")
@@ -34,5 +35,8 @@ public class TestExemp {
     @ManyToOne
     @JoinColumn(name = "teacher_id")
     Teacher teacher;
+
+    @OneToMany(mappedBy = "testExemp")
+    List<TestAccess> testAccesses;
 
 }
