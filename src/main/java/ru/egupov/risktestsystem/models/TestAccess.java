@@ -40,8 +40,9 @@ public class TestAccess {
     @Temporal(TemporalType.DATE)
     Date dateEnd;
 
-    @Column(name = "dt_use")
-    @Temporal(TemporalType.DATE)
-    Date dateUse;
+    @Column(name = "count_access")
+    int countAccess;
 
+    @Column(name = "count_use")
+    int countUse;
 }

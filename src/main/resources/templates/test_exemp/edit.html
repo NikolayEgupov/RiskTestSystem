@@ -34,6 +34,10 @@
                 <input type="hidden" name="test_id" th:value="${testE.getId()}">
                 <button type="submit" class="btn btn-outline-primary">Доступ для группы</button>
             </form>
+            <form th:action="@{/test_access/add_for_student}" th:method="GET">
+                <input type="hidden" name="test_id" th:value="${testE.getId()}">
+                <button type="submit" class="btn btn-outline-primary">Доступ для студента</button>
+            </form>
             <table class="table table-striped">
                 <thead>
                 <tr>
@@ -42,6 +46,7 @@
                     <th scope="col">Ограничение по времени (в мин.)</th>
                     <th scope="col">Дата предоставления доступа</th>
                     <th scope="col">Дата закрытия доступа</th>
+                    <th scope="col">Остаток попыток</th>
                     <th scope="col">&nbsp;</th>
                 </tr>
                 </thead>
@@ -52,6 +57,7 @@
                     <td th:text="${access.getTimeLimit()}">Ограничение по времени (в мин.)</td>
                     <td th:text="${access.getDateStart()}">Дата предоставления доступа</td>
                     <td th:text="${access.getDateEnd()}">Дата закрытия доступа</td>
+                    <td th:text="${access.getCountAccess() - access.getCountUse()}">Остаток попыток</td>
                     <td>
                         <a th:href="@{/test_access/edit/{id}(id=${access.getId()})}">
                             <i class="bi bi-pencil"></i>

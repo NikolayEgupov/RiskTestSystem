@@ -19,11 +19,12 @@ public class TestAccessService {
     }
 
     public List<TestAccess> findByTestExempAndDateUseIsNull(TestExemp testExemp){
-        return testAccessRepository.findByTestExempAndDateUseIsNull(testExemp);
+        return testAccessRepository.findByTestExempForUse(testExemp);
     }
 
     public void save(TestAccess testAccess){
         testAccessRepository.save(testAccess);
+        newMessage(testAccess);
     }
 
     public void newMessage(TestAccess testAccess){
@@ -33,6 +34,7 @@ public class TestAccessService {
                         "\nДата открытия доступа: " + testAccess.getDateStart() +
                         "\nДата закрытия доступа: " + testAccess.getDateEnd() +
                         "\nВремя прохождения: " + testAccess.getTimeLimit() +
+                        "\nКоличество попыток: " + testAccess.getCountAccess() +
                         "\nИспользуйте данные для входа:" +
                         "\nЛогин: ваш адрес электронной почты" +
                         "\nПароль: отправлен ранее" +
