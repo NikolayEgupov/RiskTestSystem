@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="https://www.thymeleaf.org">
+<head th:replace="common/head :: head('Материалы')"></head>
+<body>
+<nav th:replace="common/nav :: copy"></nav>
+
+<div class="container mt-5">
+    <form th:action="@{/test_inst/content/add}" th:method="GET">
+        <input type="hidden" name="test_id" th:value="${testE.getId()}">
+        <button type="submit" class="btn btn-outline-primary">Добавить</button>
+    </form>
+    <br>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Название</th>
+            <th scope="col">Макс. балл</th>
+            <th scope="col">&nbsp;</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="quest : ${questions}">
+            <td th:text="${quest.getId()}">ID</td>
+            <td th:text="${quest.getName()}">Название</td>
+            <td th:text="${quest.getMaxCount()}">Макс. балл</td>
+            <td>
+                <a th:href="@{/admin/teacher/edit/{id}(id=${quest.getId()})}">
+                    <i class="bi bi-pencil"></i>
+                </a>
+                <a th:href="@{/admin/teacher/delete/{id}(id=${quest.getId()})}">
+                    <i class="bi bi-x-lg"></i>
+                </a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+
+
+
+<div th:replace="common/script :: script"></div>
+</body>
+</html>

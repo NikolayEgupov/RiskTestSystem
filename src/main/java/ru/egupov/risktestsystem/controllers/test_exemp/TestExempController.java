@@ -6,12 +6,10 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import ru.egupov.risktestsystem.models.Person;
-import ru.egupov.risktestsystem.models.Teacher;
-import ru.egupov.risktestsystem.models.TestAccess;
-import ru.egupov.risktestsystem.models.TestExemp;
+import ru.egupov.risktestsystem.models.*;
 import ru.egupov.risktestsystem.security.PersonDetails;
 import ru.egupov.risktestsystem.security.SysRole;
+import ru.egupov.risktestsystem.services.QuestionService;
 import ru.egupov.risktestsystem.services.TestAccessService;
 import ru.egupov.risktestsystem.services.TestExempService;
 import ru.egupov.risktestsystem.utils.TypeViewReview;
@@ -24,10 +22,12 @@ public class TestExempController {
 
     private final TestExempService testExempService;
     private final TestAccessService testAccessService;
+    private final QuestionService questionService;
 
-    public TestExempController(TestExempService testExempService, TestAccessService testAccessService) {
+    public TestExempController(TestExempService testExempService, TestAccessService testAccessService, QuestionService questionService) {
         this.testExempService = testExempService;
         this.testAccessService = testAccessService;
+        this.questionService = questionService;
     }
 
     @GetMapping()
@@ -88,6 +88,7 @@ public class TestExempController {
         return "test_exemp/edit";
 
     }
+
 
     @PatchMapping("/edit/{id}")
     public String edit(@PathVariable("id") int id,

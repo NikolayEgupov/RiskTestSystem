@@ -26,6 +26,10 @@
                 </div>
                 <button type="submit" class="btn btn-primary mb-2">Сохранить</button>
             </form>
+            <form th:action="@{/test_inst/content}" th:method="GET">
+                <input type="hidden" name="test_id" th:value="${testE.getId()}">
+                <button type="submit" class="btn btn-outline-primary">Список вопросов</button>
+            </form>
         </div>
         <div class="col">
             <h5>Доступ к материалу</h5>

@@ -2,20 +2,18 @@ package ru.egupov.risktestsystem.models;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;
-import ru.egupov.risktestsystem.utils.TypeViewReview;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Entity
-@Table(name = "test_exemp")
+@Table(name = "question")
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
 @ToString
-public class TestExemp {
+public class Question {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,18 +26,10 @@ public class TestExemp {
     @Column(name = "description")
     String description;
 
-    @Column(name = "type_view_review")
-    @Enumerated(EnumType.STRING)
-    TypeViewReview typeViewReview;
+    @Column(name = "max_count")
+    int maxCount;
 
     @ManyToOne
-    @JoinColumn(name = "teacher_id")
-    Teacher teacher;
-
-    @OneToMany(mappedBy = "testExemp")
-    List<TestAccess> testAccesses;
-
-    @OneToMany(mappedBy = "testExemp")
-    List<Question> questions;
-
+    @JoinColumn(name = "exemp_id")
+    TestExemp testExemp;
 }
