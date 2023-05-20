@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.egupov.risktestsystem.models.Group;
 import ru.egupov.risktestsystem.models.Student;
+import ru.egupov.risktestsystem.models.Teacher;
 import ru.egupov.risktestsystem.repositories.StudentsRepository;
 
 import java.util.List;
@@ -27,6 +28,14 @@ public class StudentService {
     }
     public List<Student> findByGroup(Group group){
         return studentsRepository.findByGroup(group);
+    }
+
+    public List<Student> findAll(){
+        return studentsRepository.findAll();
+    }
+
+    public List<Student> findByGroup_Teacher(Teacher teacher){
+        return studentsRepository.findByGroup_Teacher(teacher);
     }
 
     public void add(Student student){

@@ -28,6 +28,8 @@ public class CommonController {
                 returnPage = "redirect:/admin";
             } else if (person.getRole() == SysRole.ROLE_TEACHER){
                 returnPage = "teacher_pages/main";
+            } else if (person.getRole() == SysRole.ROLE_STUDENT){
+                returnPage = "student_pages/main";
             }
         }
 

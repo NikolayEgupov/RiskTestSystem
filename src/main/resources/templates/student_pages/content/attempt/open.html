@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="https://www.thymeleaf.org">
+<head th:replace="common/head :: head('Система тестирования')"></head>
+
+<body>
+<nav th:replace="common/nav :: copy"></nav>
+
+<div class="container mt-5">
+    <div class="alert alert-warning" role="alert" th:if="${res==2}">
+        Есть незавершенная попытка прохождения материала. После выбора кнопки "Начать" эта попытка будет продолжена.
+    </div>
+    <div class="alert alert-danger" role="alert" th:if="${res<0}" th:switch="${res}">
+        <strong th:case="-2">Прохождение тестирования недоступно! <br> Количество попыток исчерпано.</strong>
+        <strong th:case="-1">Прохождение тестирования недоступно! <br> Даты прохождения уже прошли или ещё не наступили.</strong>
+    </div>
+    <h5>Информация по тестированию</h5>
+    <br>
+    <p th:text="${'Название тестирования: ' + testAccess.getTestExemp().getName()}">Название</p>
+    <p th:text="${'Количество вопросов: ' + testAccess.getTestExemp().getQuestions().size()}">Количество</p>
+    <p th:text="${'Ограничение по времени: ' + testAccess.getTimeLimit() + ' мин.'}">Ограничение</p>
+    <form th:action="@{/content/attempt/open/{id}(id=${testAccess.getId()})}" th:method="POST" th:object="${testAccess}">
+        <button type="submit" class="btn btn-primary mb-2">Начать</button>
+    </form>
+</div>
+
+<div th:replace="common/script :: script">
+</div>
+</body>
+</html>

@@ -6,6 +6,7 @@ import lombok.ToString;
 import ru.egupov.risktestsystem.security.SysRole;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "student")
@@ -17,6 +18,9 @@ public class Student extends Person{
     @ManyToOne
     @JoinColumn(name = "group_id")
     private Group group;
+
+    @OneToMany(mappedBy = "student", cascade = CascadeType.ALL)
+    private List<TestAccess> testAccesses;
 
     public Student() {
         this.setRole(SysRole.ROLE_STUDENT);

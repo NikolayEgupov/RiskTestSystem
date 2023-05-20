@@ -20,4 +20,21 @@ public class QuestionService {
     public List<Question> findBYTestExempId (int testExempId){
         return questionsRepository.findByTestExemp(testExempService.findById(testExempId));
     }
+
+    public Question findById(int id){
+        return questionsRepository.findById(id).orElse(null);
+    }
+
+    public void update(int id, Question question){
+        question.setId(id);
+        save(question);
+    }
+
+    public void save(Question question){
+        questionsRepository.save(question);
+    }
+
+    public void delete(int id){
+        questionsRepository.deleteById(id);
+    }
 }

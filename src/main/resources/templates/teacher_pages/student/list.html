@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="https://www.thymeleaf.org">
+<head th:replace="common/head :: head('Материалы')"></head>
+<body>
+<nav th:replace="common/nav :: copy"></nav>
+
+<div class="container mt-5">
+<!--    <form th:action="@{/test_inst/content/add}" th:method="GET">-->
+<!--        <input type="hidden" name="test_id" th:value="${testE.getId()}">-->
+<!--        <button type="submit" class="btn btn-outline-primary">Добавить</button>-->
+<!--    </form>-->
+<!--    <br>-->
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Имя</th>
+            <th scope="col">Эл. почта</th>
+            <th scope="col">&nbsp;</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="student : ${students}">
+            <td th:text="${student.getId()}">ID</td>
+            <td th:text="${student.getName()}">Имя</td>
+            <td th:text="${student.getEmail()}">Эл. почта</td>
+            <td>
+                <a th:href="@{/admin/student/edit/{id}(id=${student.getId()})}">
+                    <i class="bi bi-pencil"></i>
+                </a>
+                <a th:href="@{/admin/student/delete/{id}(id=${student.getId()})}">
+                    <i class="bi bi-x-lg"></i>
+                </a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<div th:replace="common/script :: script"></div>
+</body>
+</html>

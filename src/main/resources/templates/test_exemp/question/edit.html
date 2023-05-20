@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="https://www.thymeleaf.org">
+<head th:replace="common/head :: head('Материалы')"></head>
+<body>
+<nav th:replace="common/nav :: copy"></nav>
+<div class="container mt-5">
+    <div class="row row-cols-2">
+        <div class="col">
+            <h5>Изменение вопроса</h5>
+            <br>
+            <form th:action="@{/test_inst/content/edit/{id}(id=${question.getId()})}" th:method="PATCH" th:object="${question}">
+                <div class="form-group">
+                    <label for="name">Название</label>
+                    <input id="name" class="form-control" type="text" th:field="*{name}" />
+                </div>
+                <div class="form-group">
+                    <label for="description">Описание</label>
+                    <input id="description" class="form-control" type="text" th:field="*{description}" />
+                </div>
+                <div class="form-group">
+                    <label for="max_count">Макс. балл</label>
+                    <input id="max_count" class="form-control" type="text" th:field="*{maxCount}" />
+                </div>
+                <div class="form-group">
+                    <input id="testE" class="form-control" type="hidden" th:field="*{testExemp.id}"/>
+                </div>
+                <button type="submit" class="btn btn-primary mb-2">Сохранить</button>
+            </form>
+        </div>
+        <div class="col">
+            <h5>Варианты ответов</h5>
+            <form th:action="@{/test_inst/content/add_variant}" th:method="GET">
+                <input type="hidden" name="question_id" th:value="${question.getId()}">
+                <button type="submit" class="btn btn-outline-primary">Добавить</button>
+            </form>
+            <br>
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Название</th>
+                    <th scope="col">Верный</th>
+                    <th scope="col">&nbsp;</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="vari : ${variants}">
+                    <td th:text="${vari.getId()}">ID</td>
+                    <td th:text="${vari.getName()}">Название</td>
+                    <td th:text="${vari.isCorrect()==true?'Да':'Нет'}">Верный</td>
+                    <td>
+                        <a th:href="@{/test_inst/content/edit_variant/{id}(id=${vari.getId()})}">
+                            <i class="bi bi-pencil"></i>
+                        </a>
+                        <a th:href="@{/test_inst/content/delete_variant/{id}(id=${vari.getId()})}">
+                            <i class="bi bi-x-lg"></i>
+                        </a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+
+
+            </div>
+
+
+
+        </div>
+    </div>
+
+</div>
+
+
+<div th:replace="common/script :: script"></div>
+</body>
+</html>

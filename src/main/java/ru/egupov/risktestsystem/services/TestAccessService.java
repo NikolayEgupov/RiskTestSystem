@@ -1,11 +1,14 @@
 package ru.egupov.risktestsystem.services;
 
 import org.springframework.stereotype.Service;
+import ru.egupov.risktestsystem.models.Student;
 import ru.egupov.risktestsystem.models.TestAccess;
 import ru.egupov.risktestsystem.models.TestExemp;
 import ru.egupov.risktestsystem.repositories.TestAccessRepository;
 
+import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class TestAccessService {
@@ -20,6 +23,16 @@ public class TestAccessService {
 
     public List<TestAccess> findByTestExempAndDateUseIsNull(TestExemp testExemp){
         return testAccessRepository.findByTestExempForUse(testExemp);
+    }
+
+    public TestAccess findById(int id){
+        return testAccessRepository.findById(id).orElse(null);
+    }
+
+    public List<TestAccess> findActualByStudent(Student student){
+        List<TestAccess> testAccesses = testAccessRepository.findByStudentActual(student);
+        Date date = new Date();
+        return testAccesses.stream().filter(x->x.getDateEnd().after(date)&&x.getDateStart().before(date)).collect(Collectors.toList());
     }
 
     public void save(TestAccess testAccess){

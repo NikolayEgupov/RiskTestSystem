@@ -3,7 +3,29 @@
 <head th:replace="common/head :: head('Материалы')"></head>
 <body>
 <nav th:replace="common/nav :: copy"></nav>
-
+<div class="container mt-5">
+    <h5>Добавление нового вопроса</h5>
+    <br>
+    <form th:action="@{/test_inst/content/add}" th:method="POST" th:object="${question}">
+        <div class="form-group">
+            <label for="name">Название</label>
+            <input id="name" class="form-control" type="text" th:field="*{name}" />
+        </div>
+        <div class="form-group">
+            <label for="description">Описание</label>
+            <input id="description" class="form-control" type="text" th:field="*{description}" />
+        </div>
+        <div class="form-group">
+            <label for="max_count">Макс. балл</label>
+            <input id="max_count" class="form-control" type="text" th:field="*{maxCount}" />
+        </div>
+        <div class="form-group">
+            <input id="testE" class="form-control" type="hidden" th:field="*{testExemp.id}"/>
+        </div>
+        <p>После сохранения вопроса станет доступен ввод вариантов ответа.</p>
+        <button type="submit" class="btn btn-primary mb-2">Сохранить</button>
+    </form>
+</div>
 
 
 <div th:replace="common/script :: script"></div>

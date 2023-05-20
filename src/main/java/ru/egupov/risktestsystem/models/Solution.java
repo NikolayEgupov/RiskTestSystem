@@ -4,38 +4,30 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Entity
-@Table(name = "question")
+@Table(name = "solution")
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
 @ToString
-public class Question {
+public class Solution {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     int id;
 
-    @Column(name = "name")
-    String name;
-
-    @Column(name = "description")
-    String description;
-
-    @Column(name = "max_count")
-    int maxCount;
+    @ManyToOne
+    @JoinColumn(name = "attempt_id")
+    Attempt attempt;
 
     @ManyToOne
-    @JoinColumn(name = "exemp_id")
-    TestExemp testExemp;
+    @JoinColumn(name = "question_id")
+    Question question;
 
-    @OneToMany(mappedBy = "question")
-    List<Variant> variants;
-
-
+    @Column(name = "result")
+    String result;
 }

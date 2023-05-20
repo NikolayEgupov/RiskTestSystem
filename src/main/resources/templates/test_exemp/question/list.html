@@ -25,10 +25,10 @@
             <td th:text="${quest.getName()}">Название</td>
             <td th:text="${quest.getMaxCount()}">Макс. балл</td>
             <td>
-                <a th:href="@{/admin/teacher/edit/{id}(id=${quest.getId()})}">
+                <a th:href="@{/test_inst/content/edit/{id}(id=${quest.getId()})}">
                     <i class="bi bi-pencil"></i>
                 </a>
-                <a th:href="@{/admin/teacher/delete/{id}(id=${quest.getId()})}">
+                <a th:href="@{/test_inst/content/delete/{id}(id=${quest.getId()})}">
                     <i class="bi bi-x-lg"></i>
                 </a>
             </td>

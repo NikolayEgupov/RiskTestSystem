@@ -29,6 +29,10 @@ public class GroupService {
         return groupsRepository.getById(id);
     }
 
+    public List<Group> findByTeacher(Teacher teacher){
+        return groupsRepository.findByTeacher(teacher);
+    }
+
     public void add(Group group){
         Teacher teacher = teacherService.findById(group.getTeacher().getId());
         group.setTeacher(teacher);
