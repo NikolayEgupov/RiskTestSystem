@@ -28,6 +28,26 @@ public class Solution {
     @JoinColumn(name = "question_id")
     Question question;
 
+    @Column(name = "priority")
+    int priority;
+
     @Column(name = "result")
     String result;
+
+    @Transient
+    float countBall;
+
+    public float getCountBall() {
+        long countCorrectVariant = question.getVariants().stream().filter(Variant::isCorrect).count();
+        long countSolution = 0;
+        for (Variant variant: question.getVariants()) {
+            if (variant.isCorrect() && result.contains(variant.getId() + ",")){
+                countSolution++;
+            }
+        }
+        System.out.println("(countSolution/countCorrectVariant) " + (countSolution/countCorrectVariant));
+        System.out.println("question.getMaxCount() " + question.getMaxCount());
+        countBall = ((float) countSolution/countCorrectVariant)*question.getMaxCount();
+        return countBall;
+    }
 }

@@ -42,4 +42,10 @@ public class TestExemp {
     @OneToMany(mappedBy = "testExemp")
     List<Question> questions;
 
+    @Transient
+    int maxCount;
+
+    public int getMaxCount() {
+        return questions.stream().map(Question::getMaxCount).mapToInt(Integer::intValue).sum();
+    }
 }

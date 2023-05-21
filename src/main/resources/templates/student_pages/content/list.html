@@ -6,6 +6,12 @@
 <nav th:replace="common/nav :: copy"></nav>
 
 <div class="container mt-5">
+    <div th:if="${param.proc_end_time}" class="alert alert-success" role="alert">
+        Время вышло. Прохождение тестирования завершено. Просмотр результатов может быть доступен в разделе "Архив".
+    </div>
+    <div th:if="${param.proc_end}" class="alert alert-success" role="alert">
+        Прохождение тестирования завершено. Просмотр результатов может быть доступен в разделе "Архив".
+    </div>
     <h5>Актуальные материалы</h5>
     <br>
     <table class="table table-striped">
@@ -32,9 +38,29 @@
         </tr>
         </tbody>
     </table>
+    <br>
+    <h5>Архив</h5>
+    <br>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th scope="col">Название материала</th>
+            <th scope="col">Дата прохождения</th>
+            <th scope="col">Результат</th>
+            <th scope="col">&nbsp;</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="attempt : ${attempts}">
+            <td th:text="${attempt.getTestAccess().getTestExemp().getName()}">Название материала</td>
+            <td th:text="${attempt.getDateEnd()}">Дата прохождения</td>
+            <td th:text="${attempt.getResult() + ' из ' + attempt.getTestAccess().getTestExemp().getMaxCount()}">Результат</td>
+            <td>
+                <a th:href="@{/content/attempt/open_result/{id}(id=${attempt.getId()})}">
+                    Открыть
+                </a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
 </div>
-
-<div th:replace="common/script :: script">
-</div>
-</body>
-</html>

@@ -31,11 +31,11 @@ public class Attempt {
     Date dateStart;
 
     @Column(name = "dt_end")
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     Date dateEnd;
 
     @Column(name = "result")
-    int result;
+    float result;
 
     @OneToMany(mappedBy = "attempt")
     List<Solution> solutions;

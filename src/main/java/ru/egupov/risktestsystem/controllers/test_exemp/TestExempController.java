@@ -9,9 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import ru.egupov.risktestsystem.models.*;
 import ru.egupov.risktestsystem.security.PersonDetails;
 import ru.egupov.risktestsystem.security.SysRole;
-import ru.egupov.risktestsystem.services.QuestionService;
-import ru.egupov.risktestsystem.services.TestAccessService;
-import ru.egupov.risktestsystem.services.TestExempService;
+import ru.egupov.risktestsystem.services.*;
 import ru.egupov.risktestsystem.utils.TypeViewReview;
 
 import java.util.List;
@@ -24,10 +22,13 @@ public class TestExempController {
     private final TestAccessService testAccessService;
     private final QuestionService questionService;
 
-    public TestExempController(TestExempService testExempService, TestAccessService testAccessService, QuestionService questionService) {
+    private final AttemptService attemptService;
+
+    public TestExempController(TestExempService testExempService, TestAccessService testAccessService, QuestionService questionService, AttemptService attemptService) {
         this.testExempService = testExempService;
         this.testAccessService = testAccessService;
         this.questionService = questionService;
+        this.attemptService = attemptService;
     }
 
     @GetMapping()
@@ -86,6 +87,23 @@ public class TestExempController {
         model.addAttribute("testAccess", testAccesses);
 
         return "test_exemp/edit";
+
+    }
+
+    @GetMapping("/result/{id}")
+    public String resultPage(@PathVariable("id") int id,
+                           Model model){
+
+        if (getTeacherAuth() == null)
+            return "common/error";
+
+        TestExemp testExemp = testExempService.findById(id);
+        List<Attempt> attempts = attemptService.findAllArchiveByTest(testExemp);
+
+        model.addAttribute("testE", testExemp);
+        model.addAttribute("attempts", attempts);
+
+        return "test_exemp/result";
 
     }
 
