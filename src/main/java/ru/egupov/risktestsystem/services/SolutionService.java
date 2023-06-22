@@ -45,7 +45,7 @@ public class SolutionService {
 
     public Solution getNext(Solution solution){
         List<Solution> solutions = solution.getAttempt().getSolutions()
-                .stream().sorted(Comparator.comparing(Solution::getPriority)).toList();
+                .stream().sorted(Comparator.comparing(Solution::getPriority)).collect(Collectors.toList());
         int indexNext = solutions.indexOf(solution) + 1;
         if (indexNext == solutions.size()){
             indexNext = 0;

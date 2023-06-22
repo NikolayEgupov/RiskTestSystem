@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="https://www.thymeleaf.org">
+<head th:replace="common/head :: head('Редактирование данных')"></head>
+
+<body>
+<nav th:replace="common/nav :: copy"></nav>
+<div class="container mt-5">
+    <div th:if="${param.pass}" class="alert alert-success" role="alert">
+        Новый пароль отправлен по электронной почте.
+    </div>
+    <div class="row">
+        <div class="col">
+            <h5>Редактирование профиля преподавателя</h5>
+            <br>
+            <form th:action="@{/student/new_pass/{id}(id=${student.getId()})}" th:method="GET">
+                <button type="submit" class="btn btn-outline-primary">Сбросить пароль</button>
+            </form>
+            <br>
+            <form th:action="@{/student/edit/{id}(id=${student.getId()})}" th:method="PATCH" th:object="${student}">
+                <div class="form-group">
+                    <label for="name">ФИО</label>
+                    <input id="name" class="form-control" type="text" th:field="*{name}" />
+                </div>
+                <div class="form-group">
+                    <label for="email">Электронная почта</label>
+                    <input id="email" class="form-control" type="email" th:field="*{email}" />
+                </div>
+                <div class="form-group">
+                    <label for="group">Группа</label>
+                    <select th:object="${student.group}" th:field="*{id}" id="group">
+                        <option th:each="group:${groups}" th:value="${group.getId()}" th:text="${group.getName()}">
+                        </option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary mb-2">Сохранить</button>
+            </form>
+        </div>
+
+    </div>
+</div><div th:replace="common/script :: script"></div>
+</body>
+</html>

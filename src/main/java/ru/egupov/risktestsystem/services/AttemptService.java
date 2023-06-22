@@ -34,18 +34,27 @@ public class AttemptService {
     }
 
     public int checkOpenAccess(int id){
+        //Получение информации о доступе к материалу теста
         TestAccess testAccess = testAccessService.findById(id);
 
+        //Проверка на использование всех доступных попыток
         if (testAccess.getCountAccess() - testAccess.getCountUse() < 1)
             return -2;
 
+        //Проверка даты прохождения теста - не ранее даты начала
+        //и не позже даты окончания возможного прохождения тестирования
         if (testAccess.getDateStart().after(new Date()) ||
             testAccess.getDateEnd().before(new Date()))
             return -1;
 
+        //Получение всех попыток по доступу к материалу тестирования
         List<Attempt> attempts = attemptRepository.findByTestAccess(testAccess);
+
+        //Закрытие всех попыток, если время прохождения уже вышло
         refreshAttempts(attempts);
 
+        //Проверка на открытые попытки - исключение ситуации, когда студент открывает новую попытку,
+        //не завершив предыдущую
         int countUse = 0;
         Attempt attemptUse = null;
         for (Attempt attempt: attempts) {
@@ -55,6 +64,7 @@ public class AttemptService {
                 attemptUse = attempt;
         }
 
+        //Повторные проверки
         if (testAccess.getCountAccess() - countUse < 1)
             return -2;
 

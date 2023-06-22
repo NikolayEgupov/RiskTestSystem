@@ -6,15 +6,15 @@
 
 <div class="container mt-5">
     <div th:if="${param.delete}" class="alert alert-success" role="alert">
-        Пользователь удален из системы
+        Группа удалена
     </div>
     <div th:if="${param.add}" class="alert alert-success" role="alert">
-        Пользователь зарегистрирован. Пароль отправлен на указанную электронную почту
+        Группа добавлена
     </div>
     <div th:if="${param.edit}" class="alert alert-success" role="alert">
         Изменения сохранены
     </div>
-    <form action="/student/add">
+    <form action="/group/add">
         <button type="submit" class="btn btn-outline-primary">Добавить</button>
     </form>
     <br>
@@ -22,21 +22,19 @@
         <thead>
         <tr>
             <th scope="col">ID</th>
-            <th scope="col">Имя</th>
-            <th scope="col">Эл. почта</th>
+            <th scope="col">Название</th>
             <th scope="col">&nbsp;</th>
         </tr>
         </thead>
         <tbody>
-        <tr th:each="student : ${students}">
-            <td th:text="${student.getId()}">ID</td>
-            <td th:text="${student.getName()}">Имя</td>
-            <td th:text="${student.getEmail()}">Эл. почта</td>
+        <tr th:each="group : ${groups}">
+            <td th:text="${group.getId()}">ID</td>
+            <td th:text="${group.getName()}">Имя</td>
             <td>
-                <a th:href="@{/student/edit/{id}(id=${student.getId()})}">
+                <a th:href="@{/group/edit/{id}(id=${group.getId()})}">
                     <i class="bi bi-pencil"></i>
                 </a>
-                <a th:href="@{/student/delete/{id}(id=${student.getId()})}">
+                <a th:href="@{/group/delete/{id}(id=${group.getId()})}">
                     <i class="bi bi-x-lg"></i>
                 </a>
             </td>

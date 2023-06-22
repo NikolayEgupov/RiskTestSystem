@@ -46,6 +46,9 @@ public class TestExemp {
     int maxCount;
 
     public int getMaxCount() {
-        return questions.stream().map(Question::getMaxCount).mapToInt(Integer::intValue).sum();
+        if (questions != null)
+            return questions.stream().map(Question::getMaxCount).mapToInt(Integer::intValue).sum();
+        else
+            return 0;
     }
 }

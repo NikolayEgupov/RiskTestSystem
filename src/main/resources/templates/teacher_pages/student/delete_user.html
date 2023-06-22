@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="https://www.thymeleaf.org">
+<head th:replace="common/head :: head('Удаление пользователя')"></head>
+<body>
+<nav th:replace="common/nav :: copy"></nav>
+<div class="container mt-5">
+    <h5>Вы действительно хотите удалить пользователя?</h5>
+    <br>
+    <p th:text="${'Имя: ' + person.getName()}">Имя</p>
+    <p th:text="${'Эл. почта: ' + person.getEmail()}">Имя</p>
+    <form th:if="${student==true}" th:action="@{/student/delete/{id}(id=${person.getId()})}" th:method="DELETE" th:object="${person}">
+        <button type="submit" class="btn btn-primary mb-2">Удалить</button>
+    </form>
+</div>
+<div th:replace="common/script :: script"></div></body>
+</html>

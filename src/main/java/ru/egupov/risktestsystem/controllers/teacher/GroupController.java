@@ -8,29 +8,24 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.egupov.risktestsystem.models.Group;
 import ru.egupov.risktestsystem.models.Person;
-import ru.egupov.risktestsystem.models.Student;
 import ru.egupov.risktestsystem.models.Teacher;
 import ru.egupov.risktestsystem.security.PersonDetails;
 import ru.egupov.risktestsystem.security.SysRole;
 import ru.egupov.risktestsystem.services.GroupService;
-import ru.egupov.risktestsystem.services.PersonService;
-import ru.egupov.risktestsystem.services.StudentService;
+import ru.egupov.risktestsystem.services.TeacherService;
 
 import java.util.List;
 
 @Controller
-@RequestMapping("/student")
-public class StudentController {
+@RequestMapping("/group")
+public class GroupController {
 
+    private final TeacherService teacherService;
     private final GroupService groupService;
-    private final StudentService studentService;
 
-    private final PersonService personService;
-
-    public StudentController(GroupService groupService, StudentService studentService, PersonService personService) {
+    public GroupController(TeacherService teacherService, GroupService groupService) {
+        this.teacherService = teacherService;
         this.groupService = groupService;
-        this.studentService = studentService;
-        this.personService = personService;
     }
 
     @GetMapping()
@@ -42,68 +37,61 @@ public class StudentController {
             return "common/error";
 
         model.addAttribute("groups", groupService.findByTeacher(teacher));
-        model.addAttribute("students", studentService.findByGroup_Teacher(teacher));
 
-        return "teacher_pages/student/list";
+        return "teacher_pages/group/list";
     }
 
     @GetMapping("/add")
-    public String addPage(@RequestParam(required = false, name = "group_id") String groupId,
-                          Model model){
-
+    public String addPage(Model model){
         Teacher teacher = getTeacherAuth();
 
         if (teacher == null)
             return "common/error";
 
-        Student student = new Student();
-        List<Group> groups = groupService.findAll();
         Group group = new Group();
+        group.setTeacher(teacher);
 
-        if (groupId != null && groupId.chars().allMatch( Character::isDigit )){
-            group = groupService.getById(Integer.parseInt(groupId));
-            student.setGroup(group);
+        model.addAttribute("teacher", teacher);
+        model.addAttribute("group", group);
 
-        }
-
-        model.addAttribute("student", student);
-        model.addAttribute("groups", groups);
-
-        return "teacher_pages/student/add_student";
+        return "teacher_pages/group/add_group";
     }
 
     @PostMapping("/add")
-    public String addStudent(@ModelAttribute("student") Student student){
+    public String addGroup(@ModelAttribute("group") Group group){
+        Teacher teacher = getTeacherAuth();
 
-        studentService.add(student);
-
-        return "redirect:/student?add";
+        if (teacher == null)
+            return "common/error";
+        group.setTeacher(teacher);
+        groupService.add(group);
+        return "redirect:/group?add";
     }
 
     @GetMapping("/edit/{id}")
     public String editPage(@PathVariable("id") int id,
                            Model model){
-
         Teacher teacher = getTeacherAuth();
 
         if (teacher == null)
             return "common/error";
+        Group group = groupService.getById(id);
 
-        Student student = studentService.findById(id);
-        List<Group> groups = groupService.findByTeacher(teacher);
-        model.addAttribute("student", student);
-        model.addAttribute("groups", groups);
+        model.addAttribute("group", group);
 
-        return "teacher_pages/student/edit_student";
+        return "teacher_pages/group/edit_group";
     }
 
     @PatchMapping("/edit/{id}")
-    public String editStudent(@PathVariable("id") int id,
-                              @ModelAttribute("student") Student student){
+    public String editGroup(@PathVariable("id") int id,
+                            @ModelAttribute("group") Group group){
+        Teacher teacher = getTeacherAuth();
 
-        studentService.update(id, student);
-
-        return "redirect:/student?edit";
+        if (teacher == null)
+            return "common/error";
+        group.setTeacher(teacher);
+        groupService.update(id, group);
+        return "redirect:/group?edit";
     }
 
     @GetMapping("/delete/{id}")
@@ -115,38 +103,26 @@ public class StudentController {
         if (teacher == null)
             return "common/error";
 
-        Student student = studentService.findById(id);
-        model.addAttribute("student", true);
-        model.addAttribute("person", student);
+        Group group = groupService.getById(id);
 
-        return "teacher_pages/student/delete_user";
+        model.addAttribute("group", group);
+
+        return "teacher_pages/group/delete_group";
     }
 
     @DeleteMapping("/delete/{id}")
-    public String deleteStudent(@PathVariable("id") int id){
+    public String deleteGroup(@PathVariable("id") int id){
 
         Teacher teacher = getTeacherAuth();
 
         if (teacher == null)
             return "common/error";
 
-        int group_id = studentService.findById(id).getGroup().getId();
+        groupService.deleteById(id);
 
-        studentService.deleteById(id);
-
-        return "redirect:/student?delete";
+        return "redirect:/group?delete";
     }
 
-    @GetMapping("/new_pass/{id}")
-    public String newPass(@PathVariable("id") int id){
-        Teacher teacher = getTeacherAuth();
-
-        if (teacher == null)
-            return "common/error";
-
-        personService.newPass(id);
-        return "redirect:/student/edit/" + id + "?pass";
-    }
 
     static Teacher getTeacherAuth(){
         Person person = getPersonAuth();

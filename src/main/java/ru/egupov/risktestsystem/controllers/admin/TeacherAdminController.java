@@ -4,7 +4,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.egupov.risktestsystem.models.Teacher;
-import ru.egupov.risktestsystem.services.DefaultEmailService;
+import ru.egupov.risktestsystem.services.StartService;
 import ru.egupov.risktestsystem.services.TeacherService;
 
 @Controller
@@ -12,9 +12,11 @@ import ru.egupov.risktestsystem.services.TeacherService;
 public class TeacherAdminController {
 
     private final TeacherService teacherService;
+    private final StartService startService;
 
-    public TeacherAdminController(TeacherService teacherService) {
+    public TeacherAdminController(TeacherService teacherService, StartService startService) {
         this.teacherService = teacherService;
+        this.startService = startService;
     }
 
     @GetMapping()
@@ -22,6 +24,15 @@ public class TeacherAdminController {
         model.addAttribute("teachers", teacherService.findAll());
 
         return "admin/teachers";
+    }
+
+    @GetMapping("/start")
+    public String startPage(Model model){
+        if (teacherService.findAll().size() == 0){
+            startService.doIt();
+        }
+
+        return "redirect:/admin";
     }
 
     @GetMapping("/add")

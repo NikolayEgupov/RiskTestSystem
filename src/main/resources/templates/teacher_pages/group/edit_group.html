@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="https://www.thymeleaf.org">
+<head th:replace="common/head :: head('Редактирование группы')"></head>
+
+<body>
+<nav th:replace="common/nav :: copy"></nav>
+<div class="container mt-5">
+    <div class="row">
+        <div class="col">
+            <h5>Редактирование учебной группы</h5>
+            <form th:action="@{/group/edit/{id}(id=${group.getId()})}" th:method="PATCH" th:object="${group}">
+                <div class="form-group">
+                    <label for="name">Название</label>
+                    <input id="name" class="form-control" type="text" th:field="*{name}" />
+                </div>
+                <button type="submit" class="btn btn-primary mb-2">Сохранить</button>
+            </form>
+        </div>
+        <div class="col">
+            <h5>Студенты группы</h5>
+            <br>
+            <form action="/admin/student/add">
+                <input type="hidden" name="group_id" th:value="${group.getId()}">
+                <button type="submit" class="btn btn-outline-primary">Добавить</button>
+            </form>
+            <br>
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Имя</th>
+                    <th scope="col">Эл. почта</th>
+                    <th scope="col">&nbsp;</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="student : ${group.getStudents()}">
+                    <td th:text="${student.getId()}">ID</td>
+                    <td th:text="${student.getName()}">Имя</td>
+                    <td th:text="${student.getEmail()}">Эл. почта</td>
+                    <td>
+                        <a th:href="@{/student/edit/{id}(id=${student.getId()})}">
+                            <i class="bi bi-pencil"></i>
+                        </a>
+                        <a th:href="@{/student/delete/{id}(id=${student.getId()})}">
+                            <i class="bi bi-x-lg"></i>
+                        </a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div th:replace="common/script :: script"></div></body>
+</html>
